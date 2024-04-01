@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: node
+    runtime: docker
+      region: eur
+      branch: main
+      plan: standard # optional (defaults to starter instance type)
+    env:
+      - key: NODE_ENV
+        value: production
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+
+databases:
+  - name: DB_NAME
+    region: eur
+    type: postgres
+    env:
+      - key: POSTGRES_DB
+        fromDatabase: true
+      - key: POSTGRES_USER
+        fromDatabase: true
+      - key: POSTGRES_PASSWORD
+        fromDatabase: true
+
+automaticDeploy:
+  - serviceID: web
+    branch: main
